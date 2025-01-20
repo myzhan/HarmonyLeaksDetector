@@ -1,0 +1,50 @@
+{
+  "module": {
+    "name": "raphael",
+    "type": "entry",
+    "description": "$string:module_desc",
+    "mainElement": "RaphaelAbility",
+    "deviceTypes": [
+      "phone"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false,
+    "pages": "$profile:main_pages",
+    "abilities": [
+      {
+        "name": "RaphaelAbility",
+        "srcEntry": "./ets/raphaelability/RaphaelAbility.ets",
+        "description": "$string:RaphaelAbility_desc",
+        "icon": "$media:layered_image",
+        "label": "$string:RaphaelAbility_label",
+        "startWindowIcon": "$media:startIcon",
+        "startWindowBackground": "$color:start_window_background",
+        "exported": true,
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ]
+          }
+        ]
+      }
+    ],
+    "extensionAbilities": [
+      {
+        "name": "RaphaelBackupAbility",
+        "srcEntry": "./ets/raphaelbackupability/RaphaelBackupAbility.ets",
+        "type": "backup",
+        "exported": false,
+        "metadata": [
+          {
+            "name": "ohos.extension.backup",
+            "resource": "$profile:backup_config"
+          }
+        ],
+      }
+    ]
+  }
+}

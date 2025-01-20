@@ -1,0 +1,11 @@
+{
+  "name": "raphael",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "libraphael.so": "file:./src/main/cpp/types/libraphael"
+  }
+}

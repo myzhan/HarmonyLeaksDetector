@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "RaphaelAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "RaphaelAbility_label",
+      "value": "label"
+    }
+  ]
+}

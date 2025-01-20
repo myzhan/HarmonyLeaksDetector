@@ -1,0 +1,5 @@
+{
+  "libraphael.so": {
+    "source": "src/mock/Libraphael.mock.ets"
+  }
+}
