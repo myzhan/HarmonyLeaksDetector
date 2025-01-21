@@ -62,7 +62,7 @@ void write_trace(AllocNode *alloc_node, MapData *map_data, void **dl_cache) {
     LOGGER(STACK_FORMAT_HEADER, alloc_node->addr, alloc_node->size, get_func_name(alloc_node->func));
     for (int i = 0; alloc_node->trace[i] != 0; i++) {
         uintptr_t pc = alloc_node->trace[i];
-        Dl_info info;
+        xdl_info_t info;
         if (0 == xdl_addr((void *) pc, &info, dl_cache)) {
             LOGGER(STACK_FORMAT_UNKNOWN, pc);
         } else if ((uintptr_t) info.dli_fbase > pc) {

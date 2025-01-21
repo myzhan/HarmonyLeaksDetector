@@ -19,19 +19,19 @@
 // SOFTWARE.
 //
 
-// Created by caikelun on 2020-11-08.
+// Created by caikelun on 2021-02-21.
 
-#ifndef IO_GITHUB_HEXHACKING_XDL_LZMA
-#define IO_GITHUB_HEXHACKING_XDL_LZMA
-
-#include <stddef.h>
-#include <stdint.h>
+#ifndef IO_GITHUB_HEXHACKING_XDL_LINKER
+#define IO_GITHUB_HEXHACKING_XDL_LINKER
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int xdl_lzma_decompress(uint8_t *src, size_t src_size, uint8_t **dst, size_t *dst_size);
+void xdl_linker_lock(void);
+void xdl_linker_unlock(void);
+
+void *xdl_linker_force_dlopen(const char *filename);
 
 #ifdef __cplusplus
 }

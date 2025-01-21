@@ -24,6 +24,9 @@ static napi_value Start(napi_env env, napi_callback_info info)
         started = true;
         // Leaks for debug purpose
         char* p = (char*)malloc(200*sizeof(char));
+        update_configs(nullptr, 0);
+        pthread_key_delete(guard);
+        mCache->print();
     } else {
         LOGGER("Already started");
     }
