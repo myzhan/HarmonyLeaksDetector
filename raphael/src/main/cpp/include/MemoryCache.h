@@ -20,21 +20,12 @@
 #include "Cache.h"
 #include "AllocPool.hpp"
 
-#if defined(__LP64__)
 #define STACK_FORMAT_HEADER "\n0x%{public}016lx, %{public}u, %{public}s, 1\n"
 #define STACK_FORMAT_UNKNOWN "0x%{public}016lx <unknown>\n"
 #define STACK_FORMAT_ANONYMOUS "0x%{public}016lx <anonymous:%{public}016lx>\n"
 #define STACK_FORMAT_FILE "0x%{public}016lx %{public}s (unknown)\n"
 #define STACK_FORMAT_FILE_NAME "0x%{public}016lx %{public}s (%{public}s + \?)\n"
 #define STACK_FORMAT_FILE_NAME_LINE "0x%{public}016lx %{public} (%{public}s + %{public}lu)\n"
-#else
-#define STACK_FORMAT_HEADER "\n0x%08x, %u, %s, 1\n"
-#define STACK_FORMAT_UNKNOWN "0x%08x <unknown>\n"
-#define STACK_FORMAT_ANONYMOUS "0x%08x <anonymous:%08x>\n"
-#define STACK_FORMAT_FILE "0x%08x %s (unknown)\n"
-#define STACK_FORMAT_FILE_NAME "0x%08x %s (%s + \?)\n"
-#define STACK_FORMAT_FILE_NAME_LINE "0x%08x %s (%s + %u)\n"
-#endif
 
 class MemoryCache : public Cache {
 public:

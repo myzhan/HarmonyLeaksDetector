@@ -89,17 +89,5 @@ static int xdl_util_get_api_level_from_build_prop(void)
 int xdl_util_get_api_level(void)
 {
     static int xdl_util_api_level = -1;
-    // FIXME: no use
-//     if(xdl_util_api_level < 0)
-//     {
-//         int api_level = android_get_device_api_level();
-//         if(api_level < 0)
-//             api_level = xdl_util_get_api_level_from_build_prop(); // compatible with unusual models
-//         if(api_level < __ANDROID_API_J__)
-//             api_level = __ANDROID_API_J__;
-//
-//         __atomic_store_n(&xdl_util_api_level, api_level, __ATOMIC_SEQ_CST);
-//     }
-
     return xdl_util_api_level;
 }

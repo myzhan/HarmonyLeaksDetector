@@ -225,84 +225,22 @@ static int xdl_iterate_do_callback(xdl_iterate_phdr_cb_t cb, void *cb_arg, uintp
 static int xdl_iterate_by_linker(xdl_iterate_phdr_cb_t cb, void *cb_arg, int flags)
 {
     if(NULL == dl_iterate_phdr) return -1;
-//     LOGGER("xdl_iterate_by_linker");
     FILE *maps = NULL;
-
-    // for linker/linker64 in Android version < 8.1 (API level 27)
-    uintptr_t linker_base = 0, linker_load_bias = 0;
-    // FIXME: Port to harmony
-//     if((flags & XDL_WITH_LINKER) && xdl_util_get_api_level() < __ANDROID_API_O_MR1__)
-//     {
-//         linker_base = xdl_iterate_find_linker_base(&maps);
-//         if(0 != linker_base)
-//         {
-//             if(0 != xdl_iterate_do_callback(cb, cb_arg, linker_base, XDL_CONST_PATHNAME_LINKER, &linker_load_bias)) return 0;
-//         }
-//     }
+    
+    uintptr_t linker_load_bias = 0;
 
     // for other ELF
     uintptr_t pkg[5] = {(uintptr_t)cb, (uintptr_t)cb_arg, (uintptr_t)&maps, linker_load_bias, (uintptr_t)flags};
     if(NULL != xdl_iterate_linker_mutex) pthread_mutex_lock(xdl_iterate_linker_mutex);
-//     LOGGER("dl_iterate_phdr start");
     dl_iterate_phdr(xdl_iterate_by_linker_cb, pkg);
-//     LOGGER("dl_iterate_phdr end");
     if(NULL != xdl_iterate_linker_mutex) pthread_mutex_unlock(xdl_iterate_linker_mutex);
 
     if(NULL != maps) fclose(maps);
-//     LOGGER("xdl_iterate_by_linker ends");
-    return 0;
-}
-
-static int xdl_iterate_by_maps(xdl_iterate_phdr_cb_t cb, void *cb_arg)
-{
-    FILE *maps = fopen("/proc/self/maps", "r");
-    if(NULL == maps) return 0;
-
-    char line[1024];
-    while(fgets(line, sizeof(line), maps))
-    {
-        // Try to find an ELF which loaded by linker. This is almost always correct in android 4.x.
-        uintptr_t base, offset;
-        if(2 != sscanf(line, "%"SCNxPTR"-%*"SCNxPTR" r-xp %"SCNxPTR" ", &base, &offset)) continue;
-        if(0 != offset) continue;
-        if(0 != memcmp((void *)base, ELFMAG, SELFMAG)) continue;
-
-        // get pathname
-        char *pathname = strchr(line, '/');
-        if(NULL == pathname) break;
-        xdl_util_trim_ending(pathname);
-
-        // callback
-        if(0 != xdl_iterate_do_callback(cb, cb_arg, base, pathname, NULL)) break;
-    }
-
-    fclose(maps);
     return 0;
 }
 
 int xdl_iterate_phdr_impl(xdl_iterate_phdr_cb_t cb, void *cb_arg, int flags)
 {
-    int api_level = xdl_util_get_api_level();
-
-    // get linker's __dl__ZL10g_dl_mutex for Android 5.0/5.1
-    static bool linker_mutex_inited = false;
-    // FIXME: Port to harmony
-//     if(__ANDROID_API_L__ == api_level || __ANDROID_API_L_MR1__ == api_level)
-//     {
-//         if(!linker_mutex_inited)
-//         {
-//             linker_mutex_inited = true;
-//             xdl_iterate_linker_mutex_init();
-//         }
-//     }
-
-    // iterate by /proc/self/maps in Android 4.x (Android 4.x only supports arm32 and x86)
-#if defined(__arm__) || defined(__i386__)
-    if(api_level < __ANDROID_API_L__)
-        return xdl_iterate_by_maps(cb, cb_arg);
-#endif
-//         return xdl_iterate_by_maps(cb, cb_arg);
-
     // iterate by dl_iterate_phdr()
     return xdl_iterate_by_linker(cb, cb_arg, flags);
 }

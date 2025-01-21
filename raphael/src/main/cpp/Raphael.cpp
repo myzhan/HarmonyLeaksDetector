@@ -5,6 +5,7 @@
 
 #define LOGGER(fmt, ...) OH_LOG_Print(LOG_APP, LOG_INFO, 0xFF00, "RAPHAEL", fmt, ##__VA_ARGS__)
 
+// TODO: write to disk
 static char  *mSpace = "raphael";
 static Cache *mCache;
 static bool started = false;
@@ -21,6 +22,8 @@ static napi_value Start(napi_env env, napi_callback_info info)
         pthread_key_create(&guard, nullptr);
         update_configs(mCache, MAP64_MODE | ALLOC_MODE | 0x0F0000 | 10);
         started = true;
+        // Leaks for debug purpose
+        char* p = (char*)malloc(200*sizeof(char));
     } else {
         LOGGER("Already started");
     }
@@ -37,7 +40,6 @@ static napi_value Malloc(napi_env env, napi_callback_info info)
 static napi_value Stop(napi_env env, napi_callback_info info)
 {
     update_configs(nullptr, 0);
-//     xh_core_clear();
     pthread_key_delete(guard);
     return NULL;
 }

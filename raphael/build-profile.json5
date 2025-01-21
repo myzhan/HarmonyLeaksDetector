@@ -6,12 +6,6 @@
       "arguments": "",
       "cppFlags": "",
     },
-    "nativeLib": {
-      "debugSymbol": {
-        "strip": false,
-        "exclude": []
-      }
-    }
   },
   "buildOptionSet": [
     {

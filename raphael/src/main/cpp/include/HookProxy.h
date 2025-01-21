@@ -57,12 +57,7 @@ void update_configs(Cache *pNew, uint32_t params) {
 static inline void insert_memory_backtrace(void *address, size_t size, ALLOC_FUNC func_name) {
     Backtrace backtrace;
     backtrace.depth = 0;
-
-#ifdef __arm__
-    backtrace.depth = libudf_unwind_backtrace(backtrace.trace, 2, depth + 1);
-#else
     backtrace.depth = unwind_backtrace(backtrace.trace, depth + 1);
-#endif
 
     cache->insert((uintptr_t) address, size, func_name, &backtrace);
 }
@@ -94,10 +89,17 @@ static void *malloc_proxy(size_t size) {
         if (address != NULL) {
             insert_memory_backtrace(address, size, MALLOC);
         }
+        // For Debug
+        if (size == 200 ) {
+            LOGGER("%{public}s, size: 200, address: %{public}p", "malloc_proxy", address);
+        }
         pthread_setspecific(guard, (void *) 0);
         return address;
     } else {
-//         LOGGER("%{public}s", "malloc_origin");
+        // For Debug
+        if (size == 200 ) {
+            LOGGER("%{public}s", "malloc_origin");
+        }
         return malloc_origin(size);
     }
 }

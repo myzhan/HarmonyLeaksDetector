@@ -42,12 +42,6 @@ add_library(
     ${NATIVERENDER_ROOT_PATH}/xDL/xdl_lzma.c
     ${NATIVERENDER_ROOT_PATH}/xDL/xdl_util.c
 
-    # xHook
-#    ${NATIVERENDER_ROOT_PATH}/xHook/xh_core.c
-#    ${NATIVERENDER_ROOT_PATH}/xHook/xh_elf.c
-#    ${NATIVERENDER_ROOT_PATH}/xHook/xh_log.c
-#    ${NATIVERENDER_ROOT_PATH}/xHook/xh_util.c
-
     # Raphael napi provider
     ${NATIVERENDER_ROOT_PATH}/Raphael.cpp
     # Raphael Utility

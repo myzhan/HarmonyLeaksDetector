@@ -618,11 +618,9 @@ static int xdl_open_by_addr_iterate_cb(struct dl_phdr_info *info, size_t size, v
 static void *xdl_open_by_addr(void *addr)
 {
     if(NULL == addr) return NULL;
-//     LOGGER("xdl_open_by_addr");
     xdl_t *self = NULL;
     uintptr_t pkg[2] = {(uintptr_t)&self, (uintptr_t)addr};
     xdl_iterate_phdr(xdl_open_by_addr_iterate_cb, pkg, XDL_FULL_PATHNAME | XDL_WITH_LINKER);
-//     LOGGER("xdl_open_by_addr ends");
     return (void *)self;
 }
 
@@ -715,7 +713,6 @@ int xdl_addr(void *addr, Dl_info *info, void **cache)
     // lookup handle from cache
     xdl_t *handle = NULL;
     for(handle = *((xdl_t **)cache); NULL != handle; handle = handle->next) {
-        
         if(xdl_elf_is_match(handle->load_bias, handle->dlpi_phdr, handle->dlpi_phnum, (uintptr_t)addr))
             break;
     }
@@ -724,7 +721,10 @@ int xdl_addr(void *addr, Dl_info *info, void **cache)
     if(NULL == handle)
     {
         handle = (xdl_t *)xdl_open_by_addr(addr);
-        if(NULL == handle) return 0;
+        if(NULL == handle) {
+//             LOGGER("xdl_open_by_addr can't find handle %{public}p", addr);
+            return 0;
+        }
         handle->next = *(xdl_t **)cache;
         *(xdl_t **)cache = handle;
     }
