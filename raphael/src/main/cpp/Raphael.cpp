@@ -23,10 +23,10 @@ static napi_value Start(napi_env env, napi_callback_info info)
         update_configs(mCache, MAP64_MODE | ALLOC_MODE | 0x0F0000 | 10);
         started = true;
         // Leaks for debug purpose
-        char* p = (char*)malloc(200*sizeof(char));
-        update_configs(nullptr, 0);
-        pthread_key_delete(guard);
-        mCache->print();
+//         char* p = (char*)malloc(200*sizeof(char));
+//         update_configs(nullptr, 0);
+//         pthread_key_delete(guard);
+//         mCache->print();
     } else {
         LOGGER("Already started");
     }

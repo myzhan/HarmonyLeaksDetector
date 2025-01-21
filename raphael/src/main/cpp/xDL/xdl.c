@@ -351,13 +351,14 @@ static int xdl_symtab_load(xdl_t *self) {
   shstrtab = (char *)xdl_read_file_to_heap_by_section(file_fd, file_sz, shdrs + ehdr->e_shstrndx);
   if (NULL == shstrtab) goto end;
 
-  LOGGER("sections size: %{public}d, shstrndx: %{public}d", ehdr->e_shnum, ehdr->e_shstrndx);
+//   LOGGER("File: %{public}s, e_shentsize: %{public}hu, e_shnum: %{public}hu, "
+//          "shstrndx: %{public}hu", self->pathname, ehdr->e_shentsize, ehdr->e_shnum, ehdr->e_shstrndx);
   // find .symtab & .strtab
-  int index = 0;
+//   int index = 0;
   for (ElfW(Shdr) *shdr = shdrs; shdr < shdrs + ehdr->e_shnum; shdr++) {
     char *shdr_name = shstrtab + shdr->sh_name;
-    LOGGER("section: %{public}d %{public}s", index, shdr_name);
-    index++;
+//     LOGGER("section: %{public}d %{public}s", index, shdr_name);
+//     index++;
 
     if (SHT_SYMTAB == shdr->sh_type && 0 == strcmp(".symtab", shdr_name)) {
       // get & check associated .strtab section
@@ -803,7 +804,6 @@ static bool xdl_elf_is_match(uintptr_t load_bias, const ElfW(Phdr) *dlpi_phdr, E
 
     if (phdr->p_vaddr <= vaddr && vaddr < phdr->p_vaddr + phdr->p_memsz) return true;
   }
-
   return false;
 }
 

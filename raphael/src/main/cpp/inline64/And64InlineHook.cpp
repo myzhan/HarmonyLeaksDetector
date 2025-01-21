@@ -516,7 +516,8 @@ extern "C" {
     {
         static constexpr uint_fast64_t mask = 0x03ffffffu; // 0b00000011111111111111111111111111
 
-        uint32_t *trampoline = static_cast<uint32_t *>(rwx), *original = static_cast<uint32_t *>(symbol);
+        uint32_t *trampoline = static_cast<uint32_t *>(rwx);
+        uint32_t *original = static_cast<uint32_t *>(symbol);
 
         static_assert(A64_MAX_INSTRUCTIONS >= 5, "please fix A64_MAX_INSTRUCTIONS!");
         auto pc_offset = static_cast<int64_t>(__intval(replace) - __intval(symbol)) >> 2;

@@ -16,18 +16,6 @@ Start(napi_env__*, napi_callback_info__*)
 /Users/myzhan/github/HarmonyLeaksDetector/raphael/src/main/cpp/Raphael.cpp:24
 ```
 
-已知问题：
-1. 如果加上 -DCMAKE_BUILD_TYPE=RelWithDebInfo 参数编译，inline hook 会失效。
-2. buildOption 如果加上下面配置，则会找不到 so 的路径。
-```text
-"nativeLib": {
-    "debugSymbol": {
-         "strip": false,
-        "exclude": []
-    }
-}
-```
-
 TODO:
 - [ ] 支持发布，并作为模块被其他 app 引用。
 - [ ] 支持基于 xHook 的 PLT Hook。

@@ -25,7 +25,7 @@
 #define STACK_FORMAT_ANONYMOUS "0x%{public}016lx <anonymous:%{public}016lx>\n"
 #define STACK_FORMAT_FILE "0x%{public}016lx %{public}s (unknown)\n"
 #define STACK_FORMAT_FILE_NAME "0x%{public}016lx %{public}s (%{public}s + \?)\n"
-#define STACK_FORMAT_FILE_NAME_LINE "0x%{public}016lx %{public} (%{public}s + %{public}lu)\n"
+#define STACK_FORMAT_FILE_NAME_LINE "0x%{public}016lx %{public}s (%{public}s + %{public}lu)\n"
 
 class MemoryCache : public Cache {
 public:
