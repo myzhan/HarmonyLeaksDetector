@@ -25,7 +25,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-// #include "xh_core.h"
 #include "xdl.h"
 #include <hilog/log.h>
 
@@ -204,17 +203,17 @@ static int munmap_proxy(void *address, size_t size) {
     }
 }
 
-static void pthread_exit_proxy(void *value) {
-    pthread_attr_t attr;
-    // FIXME: Port to harmony musl
-//     if (isVss && pthread_getattr_np(pthread_self(), &attr) == 0) {
+// static void pthread_exit_proxy(void *value) {
+//     pthread_attr_t* attr;
+//     // FIXME: Port to harmony musl
+//     if (isVss && pthread_getattr_np(pthread_self(), attr) == 0) {
 //         pthread_setspecific(guard, (void *) 1);
-//         cache->remove((uintptr_t) attr.stack_base);
-//         pthread_attr_destroy(&attr);
+//         cache->remove((uintptr_t) attr->_a_stackaddr);
+//         pthread_attr_destroy(attr);
 //         pthread_setspecific(guard, (void *) 0);
 //     }
-    pthread_exit_origin(value);
-}
+//     pthread_exit_origin(value);
+// }
 
 //**************************************************************************************************
 static const void *sInline[][4] = {
@@ -307,43 +306,11 @@ static const void *sPltGot[][2] = {
                 "munmap",
                 (void *) munmap_proxy
         },
-        {
-                "pthread_exit",
-                (void *) pthread_exit_proxy
-        }
+//         {
+//                 "pthread_exit",
+//                 (void *) pthread_exit_proxy
+//         }
 };
-
-// static void invoke_je_free() {
-//     int api_level = android_get_device_api_level();
-//     if (api_level < __ANDROID_API_O__) {
-//         return;
-//     }
-//     void *handle;
-//     if (api_level < __ANDROID_API_Q__) {
-// #if defined(__LP64__)
-//         handle = xdl_open("/system/lib64/libc.so");
-// #else
-//         handle = xdl_open("/system/lib/libc.so");
-// #endif
-//     } else {
-// #if defined(__LP64__)
-//         handle = xdl_open("/apex/com.android.runtime/lib64/bionic/libc.so");
-// #else
-//         handle = xdl_open("/apex/com.android.runtime/lib/bionic/libc.so");
-// #endif
-//     }
-//     if (handle == nullptr) {
-//         LOGGER("invoke failed at xdl_open");
-//         return;
-//     }
-//     void *target = xdl_sym(handle, "je_free");
-//     if (target == nullptr) {
-//         LOGGER("invoke failed at xdl_sym");
-//     } else {
-//         sInline[4][1] = target;
-//     }
-//     xdl_close(handle);
-// }
 
 //**************************************************************************************************
 // void registerPltGotProxy(JNIEnv *env, jstring regex) {
@@ -370,9 +337,6 @@ static const void *sPltGot[][2] = {
 // }
 
 void registerInlineProxy() {
-    // FIXME: Port to harmony
-//     invoke_je_free();
-
     const int PROXY_MAPPING_LENGTH = sizeof(sInline) / sizeof(sInline[0]);
 
     init_arm64_unwind();

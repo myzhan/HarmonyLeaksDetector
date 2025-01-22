@@ -1,7 +1,7 @@
 {
   "name": "raphael",
   "version": "1.0.0",
-  "description": "Please describe the basic information.",
+  "description": "A hook-based memory leaks detector for Harmony Next OS",
   "main": "",
   "author": "",
   "license": "",

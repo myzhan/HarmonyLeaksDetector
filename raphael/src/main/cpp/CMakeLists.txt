@@ -46,7 +46,6 @@ add_library(
     ${NATIVERENDER_ROOT_PATH}/Raphael.cpp
     # Raphael Utility
     ${NATIVERENDER_ROOT_PATH}/MemoryCache.cpp
-    ${NATIVERENDER_ROOT_PATH}/MapData.cpp
 )
 
 target_link_libraries(raphael PUBLIC ${hilog-lib} libace_napi.z.so)

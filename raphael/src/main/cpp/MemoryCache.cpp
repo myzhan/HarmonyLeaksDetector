@@ -23,7 +23,6 @@
 #include <xdl.h>
 
 #include "Logger.h"
-#include "MapData.h"
 #include "MemoryCache.h"
 
 //**************************************************************************************************
@@ -57,7 +56,7 @@ inline const char* get_func_name(ALLOC_FUNC func) {
     }
 }
 
-void write_trace(AllocNode *alloc_node, MapData *map_data, void **dl_cache) {
+void write_trace(AllocNode *alloc_node, void **dl_cache) {
 //     fprintf(output, STACK_FORMAT_HEADER, alloc_node->addr, alloc_node->size, get_func_name(alloc_node->func));
     LOGGER(STACK_FORMAT_HEADER, alloc_node->addr, alloc_node->size, get_func_name(alloc_node->func));
     for (int i = 0; alloc_node->trace[i] != 0; i++) {
@@ -218,7 +217,7 @@ void MemoryCache::print() {
 //     }
     for (auto p : alloc_table) {
         for (; p != nullptr; p = p->next) {
-            write_trace(p, nullptr, &dl_cache);
+            write_trace(p, &dl_cache);
         }
     }
     pthread_mutex_unlock(&alloc_mutex);
