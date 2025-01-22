@@ -9,6 +9,7 @@
 static char  *mSpace = "raphael";
 static Cache *mCache;
 static bool started = false;
+static bool hooked = false;
 
 static napi_value Start(napi_env env, napi_callback_info info)
 {
@@ -16,7 +17,10 @@ static napi_value Start(napi_env env, napi_callback_info info)
         mCache = new MemoryCache(mSpace);
         update_configs(mCache, 0);
         
-        registerInlineProxy();
+        if (!hooked) {
+            registerInlineProxy();
+            hooked = true;
+        }
         
         mCache->reset();
         pthread_key_create(&guard, nullptr);
@@ -42,14 +46,30 @@ static napi_value Malloc(napi_env env, napi_callback_info info)
 
 static napi_value Stop(napi_env env, napi_callback_info info)
 {
-    update_configs(nullptr, 0);
-    pthread_key_delete(guard);
+    if (!started) {
+        update_configs(nullptr, 0);
+        mCache->print();
+        
+        delete mCache;
+        mCache = nullptr;
+        
+        pthread_key_delete(guard);
+        started = false;
+    } else {
+        LOGGER("Already stopped");
+    }
     return NULL;
 }
 
 static napi_value Print(napi_env env, napi_callback_info info)
 {
-    mCache->print();
+    if (mCache) {
+        pthread_setspecific(guard, (void *) 1);
+    
+        mCache->print();
+        
+        pthread_setspecific(guard, (void *) 0);
+    }
     return NULL;
 }
 
