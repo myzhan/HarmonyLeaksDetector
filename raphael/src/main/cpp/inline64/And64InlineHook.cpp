@@ -41,11 +41,11 @@
 #define   A64_MAX_REFERENCES   (A64_MAX_INSTRUCTIONS * 2)
 #define   A64_NOP              0xd503201fu
 #define   A64_JNIEXPORT        __attribute__((visibility("default")))
-#define   A64_LOGE(...)        ((void)OH_LOG_Print(LOG_APP, LOG_INFO, 0xFF00, "RAPHAEL", __VA_ARGS__))
+#define   A64_LOGE(...)        ((void)OH_LOG_Print(LOG_APP, LOG_ERROR, 0xFF00, "And64InlineHook", __VA_ARGS__))
 #ifndef NDEBUG
-# define  A64_LOGI(...)        ((void)OH_LOG_Print(LOG_APP, LOG_INFO, 0xFF00, "RAPHAEL", __VA_ARGS__))
+# define  A64_LOGI(...)        ((void)OH_LOG_Print(LOG_APP, LOG_DEBUG, 0xFF00, "And64InlineHook", __VA_ARGS__))
 #else
-# define  A64_LOGI(...)        ((void)OH_LOG_Print(LOG_APP, LOG_INFO, 0xFF00, "RAPHAEL", __VA_ARGS__))
+# define  A64_LOGI(...)        ((void)OH_LOG_Print(LOG_APP, LOG_INFO, 0xFF00, "And64InlineHook", __VA_ARGS__))
 #endif // NDEBUG
 typedef uint32_t *__restrict *__restrict instruction;
 typedef struct

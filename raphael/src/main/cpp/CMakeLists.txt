@@ -14,6 +14,7 @@ include_directories(${NATIVERENDER_ROOT_PATH}
                     ${NATIVERENDER_ROOT_PATH}/inline64/
                     ${NATIVERENDER_ROOT_PATH}/unwind64/
                     ${NATIVERENDER_ROOT_PATH}/xDL/
+                    ${NATIVERENDER_ROOT_PATH}/xHook/
 )
 
 # 增加hiloglib库引用
@@ -41,6 +42,11 @@ add_library(
     ${NATIVERENDER_ROOT_PATH}/xDL/xdl_linker.c
     ${NATIVERENDER_ROOT_PATH}/xDL/xdl_lzma.c
     ${NATIVERENDER_ROOT_PATH}/xDL/xdl_util.c
+
+    # xHook
+    ${NATIVERENDER_ROOT_PATH}/xHook/xh_core.c
+    ${NATIVERENDER_ROOT_PATH}/xHook/xh_elf.c
+    ${NATIVERENDER_ROOT_PATH}/xHook/xh_util.c
 
     # Raphael napi provider
     ${NATIVERENDER_ROOT_PATH}/Raphael.cpp

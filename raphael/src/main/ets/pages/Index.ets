@@ -1,6 +1,9 @@
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import raphael from 'libraphael.so';
 
+const MAP64_MODE = 0x00800000;
+const ALLOC_MODE = 0x00400000;
+
 @Entry
 @Component
 struct Index {
@@ -17,7 +20,7 @@ struct Index {
             .height(40)
             .padding({ left: 2, right: 2 })
             .onClick(() => {
-              raphael.Start()
+              raphael.Start(MAP64_MODE | ALLOC_MODE | 0x0F0000 | 10, "raphael", ".*")
             })
         }
         Row() {

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef HOOK_PROXY_H
-#define HOOK_PROXY_H
+#pragma once
 
 #include <cstdlib>
 #include <pthread.h>
@@ -26,12 +25,11 @@
 #include <sys/types.h>
 
 #include "xdl.h"
+#include "xh_core.h"
 #include <hilog/log.h>
 
 #include "And64InlineHook.hpp"
 #include "backtrace_64.h"
-
-#endif
 
 #include "Logger.h"
 #include "Raphael.h"
@@ -90,14 +88,14 @@ static void *malloc_proxy(size_t size) {
         }
         // For Debug
         if (size == 200 ) {
-            LOGGER("%{public}s, size: 200, address: %{public}p", "malloc_proxy", address);
+            RAPHAEL_DEBUG("%{public}s, size: 200, address: %{public}p", "malloc_proxy", address);
         }
         pthread_setspecific(guard, (void *) 0);
         return address;
     } else {
         // For Debug
         if (size == 200 ) {
-            LOGGER("%{public}s", "malloc_origin");
+            RAPHAEL_DEBUG("%{public}s", "malloc_origin");
         }
         return malloc_origin(size);
     }

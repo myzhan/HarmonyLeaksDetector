@@ -18,6 +18,8 @@
 #define LOGGER_H
 
 #include <hilog/log.h>
-#define LOGGER(fmt, ...) OH_LOG_Print(LOG_APP, LOG_INFO, 0xFF00, "RAPHAEL", fmt, ##__VA_ARGS__)
-
+#define RAPHAEL_DEBUG(fmt, ...) OH_LOG_Print(LOG_APP, LOG_DEBUG, 0xFF00, "RAPHAEL", fmt, ##__VA_ARGS__)
+#define RAPHAEL_INFO(fmt, ...) OH_LOG_Print(LOG_APP, LOG_INFO, 0xFF00, "RAPHAEL", fmt, ##__VA_ARGS__)
+#define RAPHAEL_WARN(fmt, ...) OH_LOG_Print(LOG_APP, LOG_WARN, 0xFF00, "RAPHAEL", fmt, ##__VA_ARGS__)
+#define RAPHAEL_ERROR(fmt, ...) OH_LOG_Print(LOG_APP, LOG_ERROR, 0xFF00, "RAPHAEL", fmt, ##__VA_ARGS__)
 #endif

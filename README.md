@@ -14,7 +14,6 @@ HarmonyLeaksDetector 尝试将字节跳动开源的 [memory-leak-detector](https
 
 TODO:
 - [ ] 支持发布，并作为模块被其他 app 引用。
-- [ ] 支持基于 xHook 的 PLT Hook。
 - [ ] 报告输出支持写文件。
 - [ ] 补充聚合报告堆栈的 Python 脚本。
 

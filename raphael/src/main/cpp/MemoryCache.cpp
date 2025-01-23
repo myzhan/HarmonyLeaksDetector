@@ -58,19 +58,19 @@ inline const char* get_func_name(ALLOC_FUNC func) {
 
 void write_trace(AllocNode *alloc_node, void **dl_cache) {
 //     fprintf(output, STACK_FORMAT_HEADER, alloc_node->addr, alloc_node->size, get_func_name(alloc_node->func));
-    LOGGER(STACK_FORMAT_HEADER, alloc_node->addr, alloc_node->size, get_func_name(alloc_node->func));
+    RAPHAEL_INFO(STACK_FORMAT_HEADER, alloc_node->addr, alloc_node->size, get_func_name(alloc_node->func));
     for (int i = 0; alloc_node->trace[i] != 0; i++) {
         uintptr_t pc = alloc_node->trace[i];
         xdl_info_t info;
         if (0 == xdl_addr((void *) pc, &info, dl_cache)) {
-            LOGGER(STACK_FORMAT_UNKNOWN, pc);
+            RAPHAEL_INFO(STACK_FORMAT_UNKNOWN, pc);
         } else if ((uintptr_t) info.dli_fbase > pc) {
 //             fprintf(
 //                     output,
 //                     STACK_FORMAT_UNKNOWN,
 //                     pc
 //             );
-            LOGGER(STACK_FORMAT_UNKNOWN, pc);
+            RAPHAEL_INFO(STACK_FORMAT_UNKNOWN, pc);
         } else {
             if (nullptr == info.dli_fname || '\0' == info.dli_fname[0]) {
 //                 fprintf(
@@ -79,7 +79,7 @@ void write_trace(AllocNode *alloc_node, void **dl_cache) {
 //                         pc - (uintptr_t) info.dli_fbase,
 //                         (uintptr_t) info.dli_fbase
 //                 );
-                LOGGER(
+                RAPHAEL_INFO(
                         STACK_FORMAT_ANONYMOUS,
                         pc - (uintptr_t) info.dli_fbase,
                         (uintptr_t) info.dli_fbase
@@ -92,7 +92,7 @@ void write_trace(AllocNode *alloc_node, void **dl_cache) {
 //                             pc - (uintptr_t) info.dli_fbase,
 //                             info.dli_fname
 //                     );
-                    LOGGER(
+                    RAPHAEL_INFO(
                             STACK_FORMAT_FILE,
                             pc - (uintptr_t) info.dli_fbase,
                             info.dli_fname
@@ -113,7 +113,7 @@ void write_trace(AllocNode *alloc_node, void **dl_cache) {
 //                                 info.dli_fname,
 //                                 symbol == nullptr ? info.dli_sname : symbol
 //                         );
-                        LOGGER(
+                        RAPHAEL_INFO(
                                 STACK_FORMAT_FILE_NAME,
                                 pc - (uintptr_t) info.dli_fbase,
                                 info.dli_fname,
@@ -128,7 +128,7 @@ void write_trace(AllocNode *alloc_node, void **dl_cache) {
 //                                 symbol == nullptr ? info.dli_sname : symbol,
 //                                 pc - (uintptr_t) info.dli_saddr
 //                         );
-                        LOGGER(
+                        RAPHAEL_INFO(
                                 STACK_FORMAT_FILE_NAME_LINE,
                                 pc - (uintptr_t) info.dli_fbase,
                                 info.dli_fname,
@@ -164,7 +164,7 @@ void MemoryCache::reset() {
 void MemoryCache::insert(uintptr_t address, size_t size, ALLOC_FUNC func, Backtrace *backtrace) {
     AllocNode *p = alloc_cache->apply();
     if (p == nullptr) {
-        LOGGER("Alloc cache is full!!!!!!!!");
+        RAPHAEL_ERROR("Alloc cache is full!!!!!!!!");
         return;
     }
 
